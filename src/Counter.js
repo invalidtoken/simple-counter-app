@@ -39,15 +39,24 @@ class Counter extends Component {
   }
 
   decrement() {
-    this.setState({ count: this.state.count - 1 }, () => {
-      document.title = `Count - ${this.state.count}`;
-    });
+    this.setState(
+      (state) => ({ count: state.count - 1 }),
+      () => {
+        document.title = `Count - ${this.state.count}`;
+      },
+    );
   }
 
   reset() {
     this.setState({ count: 0 }, () => {
       document.title = `Count - ${this.state.count}`;
     });
+  }
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      console.log('count - ', this.state.count);
+    }, 3000);
   }
 
   render() {
