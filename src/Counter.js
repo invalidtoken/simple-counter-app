@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 
 // SEE: A saparate function so that we can test it
 const increment = (state, props) => {
@@ -16,17 +16,13 @@ const getItemFromLocalStorage = () => {
 const useLocalStorage = (initialValue, key) => {
   let get = () => {
     let storage = localStorage.getItem(key);
-    console.log('2');
     if (storage) return JSON.parse(storage).value;
     return initialValue;
   };
 
-  console.log('3');
-
   let [value, setValue] = useState(get());
 
   useEffect(() => {
-    console.log('4');
     localStorage.setItem(key, JSON.stringify({ value }));
   });
 
@@ -34,10 +30,13 @@ const useLocalStorage = (initialValue, key) => {
 };
 
 const Counter = ({ max, step }) => {
-  console.log('1');
   let [count, setCount] = useLocalStorage(0, 'count');
+  let divRef = useRef(null);
 
-  console.log('count - ', count);
+  console.log('prevCount - ', divRef);
+  console.log('currentCount - ', count);
+  divRef.current = count;
+
   const increment = () => {
     setCount((prevCount) => {
       if (prevCount >= max) return prevCount;
