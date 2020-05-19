@@ -16,17 +16,13 @@ const getItemFromLocalStorage = () => {
 const useLocalStorage = (initialValue, key) => {
   let get = () => {
     let storage = localStorage.getItem(key);
-    console.log('2');
     if (storage) return JSON.parse(storage).value;
     return initialValue;
   };
 
-  console.log('3');
-
   let [value, setValue] = useState(get());
 
   useEffect(() => {
-    console.log('4');
     localStorage.setItem(key, JSON.stringify({ value }));
   });
 
@@ -34,10 +30,8 @@ const useLocalStorage = (initialValue, key) => {
 };
 
 const Counter = ({ max, step }) => {
-  console.log('1');
   let [count, setCount] = useLocalStorage(0, 'count');
 
-  console.log('count - ', count);
   const increment = () => {
     setCount((prevCount) => {
       if (prevCount >= max) return prevCount;
@@ -54,7 +48,27 @@ const Counter = ({ max, step }) => {
   };
 
   useEffect(() => {
-    document.title = `Count - ${count}`;
+    console.log('Inside Use Effect');
+    let id = setInterval(() => {
+      console.log('count - ', count);
+    }, 2000);
+
+    return () => {
+      console.log('Clearing useEffect');
+      clearInterval(id);
+    };
+  }, [count]);
+
+  useEffect(() => {
+    console.log('Inside Use Effect - 2');
+    let id = setInterval(() => {
+      console.log('count (2) - ', count);
+    }, 2000);
+
+    return () => {
+      console.log('Clearing useEffect - 2');
+      clearInterval(id);
+    };
   }, [count]);
 
   return (
