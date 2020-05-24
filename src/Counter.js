@@ -1,18 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 
-// SEE: A saparate function so that we can test it
-const increment = (state, props) => {
-  const { max, step } = props;
-  if (state.count >= max) return;
-  return { count: state.count + step };
-};
-
-const getItemFromLocalStorage = () => {
-  let storage = localStorage.getItem('counterState');
-  if (storage) return JSON.parse(storage);
-  return { count: 0 };
-};
-
 const useLocalStorage = (initialValue, key) => {
   let get = () => {
     let storage = localStorage.getItem(key);
